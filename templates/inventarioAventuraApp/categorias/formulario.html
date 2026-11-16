@@ -1,0 +1,50 @@
+{% extends 'inventarioAventuraApp/base.html' %}
+
+{% block title %}Nueva Categoria - Ecoparque{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-7">
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-4">
+                <h3 class="fw-bold text-success mb-3">Registrar Nueva Categoria</h3>
+                <p class="text-muted small">Crea categorias globales para clasificar las experiencias del Ecoparque.</p>
+                <hr class="mb-4">
+                
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    {% for field in form %}
+                        <div class="mb-3">
+                            {% if field.name == 'estado' %}
+                                <div class="form-check mt-3">
+                                    {{ field }}
+                                    <label class="form-check-label fw-bold ms-2" for="{{ field.id_for_label }}">
+                                        {{ field.label }} (Activo)
+                                    </label>
+                                </div>
+                            {% else %}
+                                <label class="form-label fw-bold text-secondary">{{ field.label }}</label>
+                                {{ field }}
+                            {% endif %}
+                            
+                            {% if field.errors %}
+                                <div class="text-danger small mt-1">{{ field.errors }}</div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="{% url 'listar_categorias' %}" class="btn btn-outline-secondary">
+                            Volver
+                        </a>
+                        <button type="submit" class="btn btn-success">
+                            Guardar Categoria
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

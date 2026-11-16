@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecoparque y Reserva Natural "Aventuras del Sur"</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="{% url 'inicio' %}">
+                Aventuras del Sur
+            </a>
+            <div>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'home' %}" class="btn btn-light btn-sm text-success fw-bold me-2">
+                        Ir al Panel
+                    </a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-outline-light btn-sm fw-bold">
+                        Iniciar Sesion
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <header class="bg-success text-white text-center py-5 shadow">
+        <div class="container py-4">
+            <h1 class="display-4 fw-bold">Ecoparque y Reserva Natural</h1>
+            <p class="lead fs-4 text-white-50">Descubre las mejores experiencias de trekking, canopy, kayak y turismo aventura al sur del mundo.</p>
+            {% if not user.is_authenticated %}
+                <a href="#actividades" class="btn btn-light btn-lg text-success fw-bold mt-3 px-4 shadow-sm">
+                    Explorar Catalogo
+                </a>
+            {% endif %}
+        </div>
+    </header>
+
+    <main class="container my-5">
+        <div class="container my-5" id="actividades">
+            <h3 class="text-center text-success mb-3">Actividades Destacadas</h3>
+            <p class="text-center text-muted mb-4">Conoce algunas de las experiencias preparadas para ti en nuestra reserva.</p>
+        </div>
+
+        <div class="row">
+            {% for exp in experiencias %}
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm border-0 h-100">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title fw-bold text-success">{{ exp.titulo }}</h5>
+                        <p class="card-text text-muted small">{{ exp.descripcion|truncatechars:100 }}</p>
+                        <ul class="list-unstyled mt-auto mb-3 small text-secondary">
+                            <li>Categoria: {{ exp.categoria.nombre }}</li>
+                            <li>Fecha: {{ exp.fecha_hora|date:"d/m/Y H:i" }}</li>
+                            <li>Precio: ${{ exp.precio }}</li>
+                        </ul>
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'catalogo_experiencias' %}" class="btn btn-success btn-sm w-100">
+                                Ver en Catalogo
+                            </a>
+                        {% else %}
+                            <a href="{% url 'login' %}" class="btn btn-outline-success btn-sm w-100">
+                                Iniciar Sesion para Reservar
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-5">
+                <div class="alert alert-secondary shadow-sm" role="alert">
+                    No hay experiencias publicadas por el momento. ¡Inicia sesion como administrador o guia para registrar la primera!
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </main>
+
+    <!-- footer -->
+    <footer class="bg-white text-center py-4 border-top mt-auto">
+        <div class="container text-muted small">
+            &copy; 2026 Ecoparque y Reserva Natural "Aventuras del Sur". Todos los derechos reservados.
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

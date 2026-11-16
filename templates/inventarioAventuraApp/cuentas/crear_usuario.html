@@ -1,0 +1,41 @@
+{% extends 'inventarioAventuraApp/base.html' %}
+
+{% block title %}Crear Usuario - Ecoparque{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-7">
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-4">
+                <h3 class="fw-bold text-success mb-3">
+                    Registrar Nuevo Usuario / Rol</h3>
+                <p class="text-muted small">Crea cuentas internas para Guias/Operadores o nuevos Turistas desde el panel.</p>
+                <hr class="mb-4">
+                
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    {% for field in form %}
+                        <div class="mb-3">
+                            <label class="form-label fw-bold text-secondary">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.errors %}
+                                <div class="text-danger small mt-1">{{ field.errors }}</div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="{% url 'listar_experiencias' %}" class="btn btn-outline-secondary">
+                            Volver
+                        </a>
+                        <button type="submit" class="btn btn-success">
+                            Registrar Usuario
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

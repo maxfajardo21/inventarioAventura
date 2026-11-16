@@ -1,0 +1,153 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Ecoparque Aventuras del Sur{% endblock %}</title>
+    
+    <!-- Custom fonts for this template -->
+    <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400,600,700,800,900" rel="stylesheet">
+    <!-- SB Admin 2 CSS  -->
+    <link href="{% static 'css/sb-admin-2.css' %}" rel="stylesheet">
+    <!-- DataTables CSS  -->
+    <link href="{% static 'vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body id="page-top">
+    <div id="wrapper">
+        <ul class="navbar-nav bg-gradient-success sidebar sidebar-dark accordion" id="accordionSidebar">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'inicio' %}">
+                <div class="sidebar-brand-icon rotate-n-15">
+                </div>
+                <div class="sidebar-brand-text mx-3">Aventuras Sur</div>
+            </a>
+            <hr class="sidebar-divider my-0">
+            
+            {% if user.is_authenticated %}
+                {% if user.is_superuser or user.perfil.rol == 'Administrador' %}
+                <!-- menu admin -->
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{% url 'listar_experiencias' %}">
+                        <span>Gestion Experiencias</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{% url 'listar_categorias' %}">
+                        <span>Gestion Categorias</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{% url 'listar_usuarios' %}">
+                        <span>Gestion de Usuarios</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{% url 'todas_reservas' %}">
+                        <span>Ver Todas las Reservas</span>
+                    </a>
+                </li>
+                
+                {% elif user.perfil.rol == 'Guia' %}
+                <!-- menu guia  -->
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{% url 'listar_experiencias' %}">
+                        <span>Mis Tours Asignados</span>
+                    </a>
+                </li>
+                
+                {% else %}
+                <!-- menu cliente  -->
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{% url 'catalogo_experiencias' %}">
+                        <span>Catalogo de Actividades</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{% url 'mis_reservas' %}">
+                        <span>Mis Reservas</span>
+                    </a>
+                </li>
+                {% endif %}
+            {% endif %}
+            
+            <hr class="sidebar-divider d-none d-md-block">
+        </ul>
+
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                    <ul class="navbar-nav ml-auto">
+                        {% if user.is_authenticated %}
+                            <li class="nav-item dropdown no-arrow">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small fw-bold">
+                                     {{ user.username }} 
+                                    <span class="badge badge-success ml-1">
+                                        {% if user.perfil.rol %}{{ user.perfil.get_rol_display }}{% else %}Administrador{% endif %}
+                                    </span>
+                                </span>
+                            </li>
+                            <div class="topbar-divider d-none d-sm-block"></div>
+                            <li class="nav-item">
+                                <form action="{% url 'logout' %}" method="post" class="d-inline mt-3">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">
+                                         Cerrar Sesion
+                                    </button>
+                                </form>
+                            </li>
+                        {% else %}
+                            <li class="nav-item mr-2">
+                                <a href="{% url 'login' %}" class="btn btn-sm btn-success mt-3">
+                                     Iniciar Sesion
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+
+                <div class="container-fluid px-0">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show w-100 mx-auto" role="alert" style="padding: 30px 10px !important; font-size: 0.85rem !important; margin-bottom: 10px !important;">
+                                <span style="line-height: 1.2;">{{ message }}</span>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="padding: 0px 8px !important; font-size: 1rem;">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                        
+                    {% block content %}{% endblock %}
+                </div>
+            </div>
+
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>&copy; 2026 Ecoparque y Reserva Natural "Aventuras del Sur"</span>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript  -->
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- Core plugin JavaScript  -->
+    <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+    <!-- Custom scripts for all pages  -->
+    <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
+    <!-- Page level plugins  -->
+    <script src="{% static 'vendor/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+    
+    <script>
+        $.fn.dataTable.ext.errMode = 'none';
+    </script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

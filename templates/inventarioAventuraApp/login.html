@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesion - Ecoparque Aventuras del Sur</title>
+    <!-- Custom fonts -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400,600,700,800,900" rel="stylesheet">
+    <!-- SB Admin 2 CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/startbootstrap-sb-admin-2/4.1.4/css/sb-admin-2.min.css" rel="stylesheet">
+</head>
+<body class="bg-gradient-success">
+
+    <div class="container">
+        <div class="row justify-content-center align-items-center min-vh-100">
+            <div class="col-xl-5 col-lg-6 col-md-8">
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <div class="p-5">
+                            <div class="text-center mb-4">
+                                <div class="text-success mb-2" style="font-size: 2.5rem;">
+                                </div>
+                                <h1 class="h4 text-gray-900 fw-bold">Aventuras del Sur</h1>
+                                <p class="text-muted small">Ecoparque y Reserva Natural</p>
+                            </div>
+
+                            {% if form.errors %}
+                                <div class="alert alert-danger small text-center" role="alert">
+                                    Usuario o contraseña incorrectos. Intentalo nuevamente.
+                                </div>
+                            {% endif %}
+
+                            <form method="post" class="user">
+                                {% csrf_token %}
+                                <div class="form-group mb-3">
+                                    <label class="small text-secondary fw-bold mb-1">Nombre de Usuario</label>
+                                    <input type="text" name="username" class="form-control form-control-user" placeholder="Ingresa tu usuario..." required autofocus>
+                                </div>
+                                <div class="form-group mb-4">
+                                    <label class="small text-secondary fw-bold mb-1">Contraseña</label>
+                                    <input type="password" name="password" class="form-control form-control-user" placeholder="Contraseña..." required>
+                                </div>
+                                <button type="submit" class="btn btn-success btn-user btn-block fw-bold py-2">
+                                    Ingresar 
+                                </button>
+                            </form>
+                            <hr>
+                            <div class="text-center">
+                                <a class="small text-success fw-bold text-decoration-none" href="{% url 'inicio' %}">
+                                    Volver a la pagina principal
+                                </a>
+                                <div class="text-center mt-3">
+                                <a class="small text-success font-weight-bold" href="{% url 'registro' %}">
+                                    ¿No tienes cuenta? Registrate aqui
+                                </a>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/startbootstrap-sb-admin-2/4.1.4/js/sb-admin-2.min.js"></script>
+</body>
+</html>

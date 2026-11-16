@@ -1,0 +1,15 @@
+administrador: 
+    nombre: maxi
+    contraseña: 1234
+guia: 
+    nombre: benja
+    contraseña: 1234
+
+    nombre: luis
+    contraseña: 1234
+turista: 
+    nombre: nicolas
+    contraseña: 1234
+
+    nombre: vicente
+    contraseña: 1234

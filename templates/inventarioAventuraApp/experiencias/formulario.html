@@ -1,0 +1,32 @@
+{% extends 'inventarioAventuraApp/base.html' %}
+
+{% block title %}Gestion de Experiencia - Ecoparque{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-4">
+                <h3 class="fw-bold text-success mb-3">
+                    Formulario de Experiencia</h3>
+                <p class="text-muted small">Completa los datos de la actividad ecoturistica.</p>
+                <hr class="mb-4">
+
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="{% url 'listar_experiencias' %}" class="btn btn-outline-secondary">
+                            Volver
+                        </a>
+                        <button type="submit" class="btn btn-success">
+                            Guardar Experiencia
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
